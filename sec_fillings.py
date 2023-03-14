@@ -6,10 +6,15 @@ from zipfile import ZipFile
 
 import requests
 
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0",
+}
+
 
 def download_file_requests(url, path_to_file):
     try:
-        response = requests.get(url)
+        response = requests.get(url, headers=headers)
+        print(response)
         open(path_to_file, "wb").write(response.content)
     except Exception as e:
         print(e)
@@ -59,6 +64,4 @@ if __name__ == '__main__':
         start_time = time.time()
         upload_sec_fillings_data(rest_col_url)
         work_time = int(time.time() - start_time)
-        print(work_time)
-        print(14400 - work_time)
-        time.sleep(14400 - work_time)
+        time.sleep(abs(work_time % 14400 - 14400))
